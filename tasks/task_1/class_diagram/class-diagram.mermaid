@@ -1,0 +1,52 @@
+classDiagram
+    class User {
+        +int id
+        +string name
+        +string email
+        +string password
+        +createOrder()
+        +viewOrders()
+        +manageOrder(orderId)
+    }
+
+    class Product {
+        +int id
+        +string name
+        +float price
+        +int stock
+    }
+
+    class Order {
+        +int id
+        +OrderStatus status
+        +addProduct(Product)
+        +removeProduct(Product)
+        +getTotal()
+    }
+
+    class Payment {
+        +int id
+        +PaymentStatus status
+        +float amount
+        +makePayment(orderId)
+    }
+
+    class OrderStatus {
+        <<enum>>
+        +Pending
+        +Completed
+        +Shipped
+    }
+
+    class PaymentStatus {
+        <<enum>>
+        +Pending
+        +Completed
+        +Failed
+    }
+
+    User "1" --o "0..*" Order : places
+    Order "1" --o "1..*" Product : contains
+    Order "1" --o "1" Payment : made for
+    PaymentStatus <-- Payment
+    OrderStatus <-- Order
